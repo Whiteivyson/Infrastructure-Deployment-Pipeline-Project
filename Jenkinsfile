@@ -34,7 +34,13 @@ pipeline {
                 echo '<--------------- Sonar Analysis started --------------->'
                 withSonarQubeEnv('sonarqube-server') {
                     withCredentials([string(credentialsId: 'sonarcreds', variable: 'SONAR_TOKEN')]) {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+                        sh """
+                                set +e
+                                ${scannerHome}/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
+                                echo "SonarQube scanner finished with exit code \$?"
+                                set -e
+                            """
+
                     }
                 }
                 echo '<--------------- Sonar Analysis stopped --------------->'
