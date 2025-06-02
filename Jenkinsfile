@@ -1,13 +1,11 @@
-def registry = 'https://trialr471xd.jfrog.io'
-def imageName = 'trialr471xd.jfrog.io/valaxy-docker-local/ttrend'
-def version = '2.1.3'
+
 
 pipeline {
     agent { label 'maven' }
     
     environment {
         PATH = "/opt/apache-maven-3.9.9/bin:$PATH"
-        KUBECONFIG = "$HOME/.kube/config"  // Ensure Jenkins uses the correct config
+        //KUBECONFIG = "$HOME/.kube/config"  // Ensure Jenkins uses the correct config
     }
     
     
@@ -44,30 +42,6 @@ pipeline {
             }
         }
 
-        stage("Jar Publish") {
-            steps {
-                script {
-                    echo '<--------------- Jar Publish Started --------------->'
-                    def server = Artifactory.newServer(url: registry + "/artifactory", credentialsId: "jfrogcreds")
-                    def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}"
-                    def uploadSpec = """{
-                        "files": [
-                            {
-                                "pattern": "jarstaging/*",
-                                "target": "tttrend-libs-release-local/{1}",
-                                "props" : "${properties}",
-                                "exclusions": ["*.sha1", "*.md5"]
-                            }
-                        ]
-                    }"""
-                    def buildInfo = server.upload(uploadSpec)
-                    buildInfo.env.collect()
-                    server.publishBuildInfo(buildInfo)
-                    echo '<--------------- Jar Publish Ended --------------->'
-                }
-            }
-        }   
-
         stage("Docker Build") {
             steps {
                 script {
@@ -78,24 +52,26 @@ pipeline {
             }
         }
 
-        stage("Docker Publish") {
+        stage(" Push to ECR") {
             steps {
                 script {
-                    echo '<--------------- Docker Publish Started --------------->'  
-                    docker.withRegistry(registry, 'jfrogcreds') {
+                    echo '<--------------- Push to ECR Started --------------->'
+                    docker.withRegistry('https://<aws_account_id>.dkr.ecr.<region>.amazonaws.com', 'ecr:us-east-1:aws-ecr-creds') {
                         app.push()
                     }
-                    echo '<--------------- Docker Publish Ended --------------->'  
+                    echo '<--------------- Push to ECR Ended --------------->'
                 }
             }
         }
 
-        stage ("Deploy") {
-            steps{
-                script{
-                    sh './deploy.sh'
-                }
+    stage ("Deploy to ECS") {
+        steps {
+            script {
+                echo '<--------------- Deploy to ECS Started --------------->'
+                sh 'aws ecs update-service --cluster my-cluster --service my-service --force-new-deployment'
+                echo '<--------------- Deploy to ECS Ended --------------->'
             }
         }
     }
+  }
 }
