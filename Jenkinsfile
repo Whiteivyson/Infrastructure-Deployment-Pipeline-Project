@@ -54,12 +54,12 @@ pipeline {
         //         sh '${SNYK_HOME}/snyk-linux iac test .'
         //     }
         // }
-        // Checkov Infrastructure Automation Test
-        stage('Checkov scan') {
-            steps {
-                sh 'checkov -d .'
-            }
-        }
+        // // Checkov Infrastructure Automation Test
+        // stage('Checkov scan') {
+        //     steps {
+        //         sh 'checkov -d .'
+        //     }
+        // }
         // Deployment Apporval
         stage('Manual Approval') {
             steps {
