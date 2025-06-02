@@ -1,7 +1,6 @@
 
-
 pipeline {
-    agent { label 'maven' }
+    agent any
     
     environment {
         PATH = "/opt/maven/bin:$PATH"
