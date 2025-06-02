@@ -27,10 +27,18 @@ resource "aws_s3_bucket" "beatstar-tf-backend-1999" {
   }
 }
 
+resource "aws_s3_bucket_logging" "example" {
+  bucket = aws_s3_bucket.beatstar-tf-backend-1999.id
+
+  target_bucket = aws_s3_bucket.beatstar-tf-backend-1999.id
+  target_prefix = "log/"
+}
+
 resource "aws_s3_bucket_versioning" "versioning" {
   bucket = aws_s3_bucket.beatstar-tf-backend-1999.id
   versioning_configuration {
     status = "Enabled"
+    mfa_delete = "Enabled"
   }
 }
 
@@ -44,10 +52,21 @@ resource "aws_dynamodb_table" "tf_locks" {
     type = "S"
   }
 
+  point_in_time_recovery {
+  enabled = true
+}
+
+  server_side_encryption {
+    enabled     = true
+    kms_key_arn = aws_kms_key.kms_key.arn
+  }
   tags = {
     Name = "BeatStar-tf-locks"
   }
 }
+
+
+
 
 # Enable server-side encryption on the S3 bucket
 resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
@@ -57,4 +76,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
       sse_algorithm = "AES256"
     }
   }
+}
+
+resource "aws_kms_key" "kms_key" {
+  description             = "KMS key 1"
+  deletion_window_in_days = 10
 }

@@ -13,7 +13,7 @@ resource "aws_lb" "web_alb" {
 resource "aws_lb_target_group" "web_tg" {
   name        = "${var.BeatStar}-tg"
   port        = var.container_port
-  protocol    = "HTTP"
+  protocol    = "HTTPS"
   target_type = "ip"
   vpc_id      = var.vpc_id
 

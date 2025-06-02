@@ -63,6 +63,7 @@ resource "aws_security_group" "jenkins_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
+    description = "HTTP from anywhere"
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
@@ -77,6 +78,7 @@ resource "aws_security_group" "jenkins_sg" {
   }
 
   ingress {
+    description = "ssh from anywhere"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
