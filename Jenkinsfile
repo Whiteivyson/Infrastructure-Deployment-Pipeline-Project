@@ -4,7 +4,7 @@ pipeline {
     agent { label 'maven' }
     
     environment {
-        PATH = "/opt/apache-maven-3.9.9/bin:$PATH"
+        PATH = "/opt/maven/bin:$PATH"
         //KUBECONFIG = "$HOME/.kube/config"  // Ensure Jenkins uses the correct config
     }
     
