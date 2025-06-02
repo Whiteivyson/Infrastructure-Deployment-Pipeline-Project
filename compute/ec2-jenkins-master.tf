@@ -17,6 +17,11 @@ resource "aws_instance" "jenkins_master" {
   root_block_device {
     encrypted = true
   }
+  metadata_options {
+  http_tokens = "required"
+  http_endpoint = "enabled"
+}
+
 
 }
 
@@ -81,4 +86,5 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
 resource "aws_kms_key" "kms_key" {
   description             = "KMS key 1"
   deletion_window_in_days = 10
+  enable_key_rotation = true
 }

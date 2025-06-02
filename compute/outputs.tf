@@ -19,3 +19,8 @@ output "listener_arn" {
 output "alb_dns_name" {
   value = aws_lb.web_alb.dns_name
 }
+
+output "aws_s3_bucket_name" {
+  value = aws_s3_bucket.beatstar-tf-backend-1999.id
+  
+}

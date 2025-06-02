@@ -4,6 +4,11 @@ resource "aws_ecs_cluster" "main" {
   tags = {
     Name = "${var.BeatStar}-ecs-cluster"
   }
+  setting {
+  name  = "containerInsights"
+  value = "enabled"
+  }
+
 }
 
 resource "aws_ecs_task_definition" "web_app" {

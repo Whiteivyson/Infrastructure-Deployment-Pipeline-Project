@@ -93,3 +93,9 @@ variable "aws_region" {
   description = "AWS region for metrics"
   type        = string
 }
+
+variable "aws_s3_bucket_name" {
+  description = "S3 bucket name for ALB access logs"
+  type        = string
+  
+}

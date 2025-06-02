@@ -8,6 +8,13 @@ resource "aws_lb" "web_alb" {
   tags = {
     Name = "${var.BeatStar}-alb"
   }
+  
+  access_logs {
+  bucket  = var.aws_s3_bucket_name  
+  enabled = true
+  prefix  = "alb-logs"
+}
+  enable_deletion_protection = false
 }
 
 resource "aws_lb_target_group" "web_tg" {
