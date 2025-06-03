@@ -91,7 +91,6 @@ pipeline {
                         echo '<--------------- Push to ECR Ended --------------->'
                     }
                 }
-            }
 
             stage("Deploy to ECS") {
                 steps {
@@ -101,6 +100,7 @@ pipeline {
                         echo '<--------------- Deploy to ECS Ended --------------->'
                     }
                 }
-            }
+           }
+       } 
 }
 
