@@ -6,7 +6,7 @@ pipeline {
         PATH = "/opt/maven/bin:$PATH"
         ecrRegistry = "234165351498.dkr.ecr.us-east-1.amazonaws.com"
         ecrRepo = "my-app-repo"
-        registryCredentials = "aws-ecr-creds"
+        registryCredentials = "awscreds"
         imageName = "trialg0yj41.jfrog.io/valaxy-docker-local/ttrend"
         version = "2.1.3"
     }
@@ -82,18 +82,18 @@ pipeline {
             }
         }
 
-        stage("Push to ECR") {
+        stage('Push to ECR') {
             steps {
                 script {
-                    echo '<--------------- Push to ECR Started --------------->'
-                    docker.withRegistry("https://${ecrRegistry}", registryCredentials) {
-                        def app = docker.image("${ecrRegistry}/${ecrRepo}:${version}")
-                        app.push()
-                    }
-                    echo '<--------------- Push to ECR Ended --------------->'
+                echo '<--------------- Push to ECR Started --------------->'
+                docker.withRegistry('https://234165351498.dkr.ecr.us-east-1.amazonaws.com', 'awscreds') {
+                    app.push("2.1.3")
+                }
+                echo '<--------------- Push to ECR Ended --------------->'
                 }
             }
         }
+
 
         stage("Deploy to ECS") {
             steps {
