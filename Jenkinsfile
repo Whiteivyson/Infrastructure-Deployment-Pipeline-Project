@@ -76,7 +76,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Docker Build Started --------------->'
-                    def app = docker.build("${ecrRegistry}/${ecrRepo}:${version}")
+                    app = docker.build("${ecrRegistry}/${ecrRepo}:${version}")
                     echo '<--------------- Docker Build Ended --------------->'
                 }
             }
