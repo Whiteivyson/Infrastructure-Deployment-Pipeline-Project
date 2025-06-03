@@ -27,5 +27,5 @@ module "compute" {
   alb_security_group_id     = module.security.alb_security_group_id
   jenkins_security_group_id = module.security.jenkins_security_group_id
   aws_region                = "aws_region"
-  aws_s3_bucket_name        = "aws_s3_bucket_name"
+  aws_s3_bucket_name        = "aws_s3_bucket_name" 
 }

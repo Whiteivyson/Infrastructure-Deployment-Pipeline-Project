@@ -21,8 +21,8 @@ resource "aws_ecs_task_definition" "web_app" {
 
   container_definitions = jsonencode([
     {
-      name      = "web-app"
-      image     = "nginx:latest",
+      name      = var.container_name ,
+      image     = var.dockerhub_image,
       portMappings = [
         {
           containerPort = var.container_port

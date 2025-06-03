@@ -99,3 +99,22 @@ variable "aws_s3_bucket_name" {
   type        = string
   
 }
+
+variable "codedeploy_role_arn" {
+  description = "IAM role ARN for CodeDeploy"
+  type        = string
+}
+
+variable "container_name" {
+  description = "The name of the ECS container"
+  type        = string
+  default     = "web-app"
+}
+
+variable "dockerhub_image" {
+  description = "The full DockerHub image name (e.g. whiteivyson/my-app:2.1.3)"
+  type        = string
+  default     = "whiteivyson/my-app:2.1.3"
+}
+
+
