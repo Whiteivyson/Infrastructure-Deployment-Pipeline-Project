@@ -1,17 +1,14 @@
- def registry = 'https://trialg0yj41.jfrog.io' 
- def imageName = 'https://trialg0yj41.jfrog.io/valaxy-docker-local/ttrend'
- def version = '2.1.3'
-
+// Jenkinsfile for Maven-based Java application CI/CD
 pipeline {
     agent any
-    
+
     environment {
         PATH = "/opt/maven/bin:$PATH"
-        //KUBECONFIG = "$HOME/.kube/config"  // Ensure Jenkins uses the correct config
+        registry = "https://trialg0yj41.jfrog.io"
+        imageName = "trialg0yj41.jfrog.io/valaxy-docker-local/ttrend"
+        version = "2.1.3"
     }
-    
-    
-    
+
     stages {
         stage("Build") {
             steps {
@@ -22,28 +19,27 @@ pipeline {
         }
 
         stage("Unit Test") {
-            steps { 
+            steps {
                 echo "------ Unit test started ------"
                 sh 'mvn surefire-report:report'
                 echo "------ Unit test completed ------"
             }
         }
-        
+
         stage("Sonar Analysis") {
             environment {
-                scannerHome = tool 'sonar-scanner'  // Scanner name configured for the agent
+                scannerHome = tool 'sonar-scanner'  // Name must match what’s configured in Jenkins
             }
             steps {
                 echo '<--------------- Sonar Analysis started --------------->'
                 withSonarQubeEnv('sonarqube-server') {
                     withCredentials([string(credentialsId: 'sonarcreds', variable: 'SONAR_TOKEN')]) {
                         sh """
-                                set +e
-                                ${scannerHome}/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
-                                echo "SonarQube scanner finished with exit code \$?"
-                                set -e
-                            """
-
+                            set +e
+                            ${scannerHome}/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
+                            echo "SonarQube scanner finished with exit code \$?"
+                            set -e
+                        """
                     }
                 }
                 echo '<--------------- Sonar Analysis stopped --------------->'
@@ -54,14 +50,14 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Jar Publish Started --------------->'
-                    def server = Artifactory.newServer(url: registry + "/artifactory", credentialsId: "jfrogcreds")
+                    def server = Artifactory.newServer(url: "${registry}/artifactory", credentialsId: "jfrogcreds")
                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}"
                     def uploadSpec = """{
                         "files": [
                             {
                                 "pattern": "jarstaging/*",
                                 "target": "tttrend-libs-release-local/",
-                                "props" : "${properties}",
+                                "props": "${properties}",
                                 "exclusions": ["*.sha1", "*.md5"]
                             }
                         ]
@@ -72,20 +68,19 @@ pipeline {
                     echo '<--------------- Jar Publish Ended --------------->'
                 }
             }
-        }   
-
+        }
 
         stage("Docker Build") {
             steps {
                 script {
                     echo '<--------------- Docker Build Started --------------->'
-                    app = docker.build(imageName + ":" + version)
+                    app = docker.build("${imageName}:${version}")
                     echo '<--------------- Docker Build Ended --------------->'
                 }
             }
         }
 
-        stage(" Push to ECR") {
+        stage("Push to ECR") {
             steps {
                 script {
                     echo '<--------------- Push to ECR Started --------------->'
@@ -97,14 +92,14 @@ pipeline {
             }
         }
 
-    stage ("Deploy to ECS") {
-        steps {
-            script {
-                echo '<--------------- Deploy to ECS Started --------------->'
-                sh 'aws ecs update-service --cluster my-cluster --service my-service --force-new-deployment'
-                echo '<--------------- Deploy to ECS Ended --------------->'
+        stage("Deploy to ECS") {
+            steps {
+                script {
+                    echo '<--------------- Deploy to ECS Started --------------->'
+                    sh 'aws ecs update-service --cluster my-cluster --service my-service --force-new-deployment'
+                    echo '<--------------- Deploy to ECS Ended --------------->'
+                }
             }
         }
     }
-  }
 }
