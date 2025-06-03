@@ -82,17 +82,18 @@ pipeline {
             }
         }
 
-        stage('Push to ECR') {
+       stage('Push to DockerHub') {
             steps {
                 script {
-                echo '<--------------- Push to ECR Started --------------->'
-                docker.withRegistry('https://234165351498.dkr.ecr.us-east-1.amazonaws.com', 'awscreds') {
-                    app.push("2.1.3")
-                }
-                echo '<--------------- Push to ECR Ended --------------->'
+                    echo '<--------------- Push to DockerHub Started --------------->'
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockercreds') {
+                        app.push("${version}")
+                    }
+                    echo '<--------------- Push to DockerHub Ended --------------->'
                 }
             }
         }
+
 
 
         stage("Deploy to ECS") {
