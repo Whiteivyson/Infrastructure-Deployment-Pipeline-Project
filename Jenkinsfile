@@ -56,7 +56,7 @@ pipeline {
                         "files": [
                             {
                                 "pattern": "jarstaging/*",
-                                "target": "tttrend-libs-release-local/",
+                                "target": "tttrend-libs-release-local/com/valaxy/demo-workshop/2.1.3/",
                                 "props": "${properties}",
                                 "exclusions": ["*.sha1", "*.md5"]
                             }
