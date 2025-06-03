@@ -24,3 +24,8 @@ output "aws_s3_bucket_name" {
   value = aws_s3_bucket.beatstar-tf-backend-1999.id
   
 }
+
+output "ecr_repo_url" {
+  description = "The URL of the ECR repository"
+  value       = aws_ecr_repository.app_repo.repository_url
+}

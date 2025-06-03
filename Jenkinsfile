@@ -5,28 +5,14 @@ def COLOR_MAP = [
 ]
 pipeline {
     agent any
-    environment {
-        SNYK_HOME = tool name: 'Snyk'
-    }
-    tools {
-        snyk 'Snyk'
-    }
+    
     stages {
         // Verifying setup
         stage('Confirm Tools Installations') {
             steps {
                 sh 'git --version'
                 sh 'terraform version'
-                // sh 'npm snyk --version'
                 sh 'checkov --version'
-            }
-        }
-        // Providing Snyk Access
-        stage('Authenticate Snyk') {
-            steps {
-                withCredentials([string(credentialsId: 'synkcreds', variable: 'SNYK_TOKEN')]) {
-                    sh "${SNYK_HOME}/snyk-linux auth $SNYK_TOKEN"
-                }
             }
         }
         // IInitialize Terraform
@@ -48,12 +34,6 @@ pipeline {
                 sh 'terraform plan'
             }
         }
-        // // Snyk Infrastructure Automation Test
-        // stage('Snyk Security Test') {
-        //     steps {
-        //         sh '${SNYK_HOME}/snyk-linux iac test .'
-        //     }
-        // }
         // // Checkov Infrastructure Automation Test
         // stage('Checkov scan') {
         //     steps {

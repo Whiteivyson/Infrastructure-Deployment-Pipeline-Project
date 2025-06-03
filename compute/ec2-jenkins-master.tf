@@ -6,6 +6,7 @@ resource "aws_instance" "jenkins_master" {
   subnet_id = var.public_subnet_ids[1]
   user_data = base64encode(file("scripts/userdata.sh"))
   associate_public_ip_address = true
+  disable_api_termination = true
     
   tags = {
     Name = "${var.BeatStar}-jenkins-master"
