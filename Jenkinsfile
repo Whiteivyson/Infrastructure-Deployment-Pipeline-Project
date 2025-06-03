@@ -6,7 +6,7 @@ pipeline {
         PATH = "/opt/maven/bin:$PATH"
         ecrRegistry = "234165351498.dkr.ecr.us-east-1.amazonaws.com"
         ecrRepo = "my-app-repo"
-        registryCredentials = "awscreds"
+        registryCredentials = "aws-ecr-creds"
         imageName = "trialg0yj41.jfrog.io/valaxy-docker-local/ttrend"
         version = "2.1.3"
     }
