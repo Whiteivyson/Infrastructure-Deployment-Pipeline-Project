@@ -100,7 +100,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Deploy to ECS Started --------------->'
-                    sh 'aws ecs update-service --cluster my-cluster --service my-service --force-new-deployment'
+                    sh 'aws ecs update-service --cluster BeatStar-ecs-cluster --service BeatStar-ecs-service --force-new-deployment --region us-east-1'
                     echo '<--------------- Deploy to ECS Ended --------------->'
                 }
             }
