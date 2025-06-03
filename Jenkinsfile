@@ -84,7 +84,7 @@ pipeline {
                 steps {
                     script {
                         echo '<--------------- Push to ECR Started --------------->'
-                        withDockerRegistry([credentialsId: 'ecr:us-east-1:aws-ecr-creds', url: "https://234165351498.dkr.ecr.us-east-1.amazonaws.com"]) {
+                        withDockerRegistry([credentialsId: 'aws-ecr-creds', url: "https://234165351498.dkr.ecr.us-east-1.amazonaws.com"]) {
                             app.push()
                         }
                         }
