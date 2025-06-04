@@ -1,4 +1,8 @@
-// Jenkinsfile for Maven-based Java application CI/CD
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+    'UNSTABLE': 'danger'
+]
 pipeline {
     agent any
 
@@ -104,6 +108,15 @@ pipeline {
                     echo '<--------------- Deploy to ECS Ended --------------->'
                 }
             }
+        }
+
+        post {
+            always {
+                    echo 'Slack Notifications.'
+                slackSend channel: '#ab-devsecops-cicd-alerts',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job Name '${env.JOB_NAME}' build ${env.BUILD_NUMBER} \n Build Timestamp: ${env.BUILD_TIMESTAMP} \n Project Workspace: ${env.WORKSPACE} \n More info at: ${env.BUILD_URL}"
+                }
         }
     }
 }
