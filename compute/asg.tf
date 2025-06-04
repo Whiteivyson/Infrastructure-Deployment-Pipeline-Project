@@ -15,7 +15,7 @@ resource "aws_appautoscaling_policy" "scale_out" {
   policy_type        = "TargetTrackingScaling"
 
   target_tracking_scaling_policy_configuration {
-    target_value       = 70.0
+    target_value = 70.0
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
@@ -36,15 +36,15 @@ resource "aws_appautoscaling_policy" "scale_in" {
     adjustment_type = "ChangeInCapacity"
 
     step_adjustment {
-      scaling_adjustment = -1
+      scaling_adjustment          = -1
       metric_interval_upper_bound = 50
     }
     step_adjustment {
-  metric_interval_lower_bound = 50
-  scaling_adjustment = -2
-}
+      metric_interval_lower_bound = 50
+      scaling_adjustment          = -2
+    }
 
-    cooldown = 60
+    cooldown                = 60
     metric_aggregation_type = "Average"
   }
 }

@@ -7,4 +7,4 @@ terraform {
     dynamodb_table = "BeatStar-tf-locks"
     encrypt        = true
   }
-  }
+}

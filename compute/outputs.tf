@@ -8,12 +8,12 @@ output "ecs_service_name" {
 
 output "target_group_arn" {
   value = aws_lb_target_group.web_tg.arn
-  
+
 }
 
 output "listener_arn" {
   value = aws_lb_listener.http.arn
-  
+
 }
 
 output "alb_dns_name" {
@@ -22,7 +22,7 @@ output "alb_dns_name" {
 
 output "aws_s3_bucket_name" {
   value = aws_s3_bucket.beatstar-tf-backend-1999.id
-  
+
 }
 
 output "ecr_repo_url" {

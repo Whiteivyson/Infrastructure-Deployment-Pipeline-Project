@@ -1,5 +1,5 @@
 resource "aws_codedeploy_app" "repo_app" {
-  name = "beatstar-codedeploy-app"
+  name             = "beatstar-codedeploy-app"
   compute_platform = "ECS"
 }
 
@@ -35,7 +35,7 @@ resource "aws_codedeploy_deployment_group" "ecs_deployment_group" {
   }
 
   deployment_style {
-    deployment_type = "BLUE_GREEN"
+    deployment_type   = "BLUE_GREEN"
     deployment_option = "WITH_TRAFFIC_CONTROL"
   }
 }
@@ -70,4 +70,16 @@ resource "aws_iam_role" "codedeploy_role" {
       }
     ]
   })
+
+  tags = {
+    Name = "${var.BeatStar}-codedeploy-role"
+  }
+}
+resource "aws_iam_role_policy_attachment" "codedeploy_policy" {
+  role       = aws_iam_role.codedeploy_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECSLimited"
+}
+resource "aws_iam_role_policy_attachment" "codedeploy_ecs_policy" {
+  role       = aws_iam_role.codedeploy_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECSLimited"
 }

@@ -4,9 +4,9 @@ variable "BeatStar" {
 }
 
 variable "cidr_block" {
-    type = string
-    description = "vpc cidr range"
-    default = "10.0.0.0/16"
+  type        = string
+  description = "vpc cidr range"
+  default     = "10.0.0.0/16"
 }
 
 
@@ -29,9 +29,9 @@ variable "public_subnet" {
   }
 }
 variable "availability_zone" {
-    type = list(string)
-    description = "List of availability zones"
-    default = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  type        = list(string)
+  description = "List of availability zones"
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 
@@ -39,7 +39,7 @@ variable "availability_zone" {
 
 
 variable "private_subnet_cidr" {
-    type = string
-    description = "Private subnet cidr range"
-    default = "10.0.15.0/28"
+  type        = string
+  description = "Private subnet cidr range"
+  default     = "10.0.15.0/28"
 }

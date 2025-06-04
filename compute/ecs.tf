@@ -5,8 +5,8 @@ resource "aws_ecs_cluster" "main" {
     Name = "${var.BeatStar}-ecs-cluster"
   }
   setting {
-  name  = "containerInsights"
-  value = "enabled"
+    name  = "containerInsights"
+    value = "enabled"
   }
 
 }
@@ -15,14 +15,14 @@ resource "aws_ecs_task_definition" "web_app" {
   family                   = "${var.BeatStar}-task"
   cpu                      = var.cpu
   memory                   = var.memory
-  network_mode            = "awsvpc"
+  network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn      = var.task_execution_role_arn
+  execution_role_arn       = var.task_execution_role_arn
 
   container_definitions = jsonencode([
     {
-      name      = var.container_name ,
-      image     = var.dockerhub_image,
+      name  = var.container_name,
+      image = var.dockerhub_image,
       portMappings = [
         {
           containerPort = var.container_port
@@ -43,8 +43,8 @@ resource "aws_ecs_service" "web_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets         = var.private_subnet_ids
-    security_groups = [var.ecs_security_group_id]
+    subnets          = var.private_subnet_ids
+    security_groups  = [var.ecs_security_group_id]
     assign_public_ip = false
   }
 

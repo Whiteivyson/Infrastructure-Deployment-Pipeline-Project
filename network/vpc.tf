@@ -22,9 +22,9 @@ resource "aws_subnet" "public" {
 
 
 resource "aws_subnet" "private" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet_cidr
-  availability_zone = var.availability_zone[1]
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.private_subnet_cidr
+  availability_zone       = var.availability_zone[1]
   map_public_ip_on_launch = true
   tags = {
     Name = "${var.BeatStar}-private-subnet"
@@ -46,14 +46,14 @@ resource "aws_eip" "eip" {
 
 resource "aws_nat_gateway" "nat_gw" {
   allocation_id = aws_eip.eip.id
-  subnet_id = aws_subnet.public["public_subnet_1"].id
+  subnet_id     = aws_subnet.public["public_subnet_1"].id
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
   # on the Internet Gateway for the VPC.
   depends_on = [aws_internet_gateway.igw]
-    tags = {
-        Name = "${var.BeatStar}-nat-gw"
-    }
+  tags = {
+    Name = "${var.BeatStar}-nat-gw"
+  }
 }
 
 resource "aws_route_table" "public" {

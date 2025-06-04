@@ -8,13 +8,14 @@ resource "aws_lb" "web_alb" {
   tags = {
     Name = "${var.BeatStar}-alb"
   }
-  
+
   access_logs {
-  bucket  = var.aws_s3_bucket_name  
-  enabled = true
-  prefix  = "alb-logs"
-}
+    bucket  = var.aws_s3_bucket_name
+    enabled = true
+    prefix  = "alb-logs"
+  }
   enable_deletion_protection = false
+  #depends_on = [ aws_s3_bucket_policy.allow_alb_logging ]
 }
 
 resource "aws_lb_target_group" "web_tg" {

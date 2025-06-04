@@ -25,6 +25,7 @@ variable "task_execution_role_arn" {
   description = "IAM execution role ARN"
 }
 
+
 variable "container_port" {
   type        = number
   description = "Port exposed by container"
@@ -100,11 +101,6 @@ variable "aws_s3_bucket_name" {
   
 }
 
-variable "codedeploy_role_arn" {
-  description = "IAM role ARN for CodeDeploy"
-  type        = string
-}
-
 variable "container_name" {
   description = "The name of the ECS container"
   type        = string
@@ -116,5 +112,6 @@ variable "dockerhub_image" {
   type        = string
   default     = "whiteivyson/my-app:2.1.3"
 }
+
 
 

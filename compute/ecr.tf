@@ -1,6 +1,6 @@
 
 resource "aws_ecr_repository" "app_repo" {
-  name                 = "my-app-repo"  # Replace with your preferred name
+  name                 = "my-app-repo" # Replace with your preferred name
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
