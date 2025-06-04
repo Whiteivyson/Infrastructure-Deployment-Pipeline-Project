@@ -143,24 +143,17 @@ Once both the above steps are done click on Save.
 - compute/ - ECS cluster, ALB, ASG
 - monitoring/ - CloudWatch alarms, CloudWatch logs
 
-### CI/CD Pipeline
 
-Jenkins Stages:
-1. Infra Validation
-   - Terraform fmt/validate
-   - Checkov security scanning
-2. Build
-   - Docker build/push
-   - SonarQube analysis
-3. Deploy
-   - Terraform apply
-   - ECS blue/green
-4. Verify
-   - Integration tests
-   - Canary analysis
-5. Notify
-   - Slack deployment status
-   - JIRA ticket update
+## Jenkins Pipeline Overview
+
+| Stage        | Description                                      |
+|--------------|--------------------------------------------------|
+| tf Validate  | Terraform `fmt`, `validate`, and `checkov` scan |
+| Build        | Maven build, test, and code style check         |
+| Analyze      | SonarQube static analysis                        |
+| Package      | Docker build and push to registry               |
+| Deploy       | Terraform `apply`, ECS blue/green deployment    |
+| Notify       | Slack alert and status update                   |
 
 ### Container Management
 
