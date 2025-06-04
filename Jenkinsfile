@@ -105,5 +105,21 @@ pipeline {
                 }
             }
         }
+
+        stage("Blue/Green Deploy to ECS") {
+  steps {
+    script {
+      sh '''
+        aws deploy create-deployment \
+          --application-name beatstar-codedeploy-app \
+          --deployment-group-name beatstar-ecs-deploy-group \
+          --deployment-config-name CodeDeployDefault.ECSAllAtOnce \
+          --file-exists-behavior OVERWRITE \
+          --revision file://appspec.yaml
+      '''
+    }
+  }
+}
+
     }
 }
