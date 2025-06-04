@@ -113,5 +113,11 @@ variable "dockerhub_image" {
   default     = "whiteivyson/my-app:2.1.3"
 }
 
+variable "task_definition_arn" {
+  description = "ARN of the ECS task definition"
+  type        = string
+  default     = " "
+  
+}
 
 
